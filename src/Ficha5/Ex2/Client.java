@@ -34,7 +34,6 @@ public class Client {
                         + " O valor tem que ser um múltiplo de 5\n :>");
 
                 String texto = sc.nextLine();
-
                 try {
                     value = Integer.parseInt(texto);
                 } catch (NumberFormatException e) {
@@ -47,7 +46,10 @@ public class Client {
             System.out.println("Número de fichas investidas: " + currentChips);
 
             System.out.println(in.readLine());
-            int number, chipsToBet;
+
+            String text;
+            int number, chipsToBet, extractedNumber;
+
             while (true) {
                 number = InputValidation.validateIntBetween(sc, "Introduza o número que " +
                         "quer apostar. Tem de ser um número entre 1 e 36\n :>", 1 ,36);
@@ -59,7 +61,36 @@ public class Client {
                         "quer apostar no número "+number+"\n :>", 1 , currentChips);
                 out.println(chipsToBet);
 
-                currentChips -= chipsToBet;
+                extractedNumber = Integer.parseInt(in.readLine());
+                currentChips = Integer.parseInt(in.readLine());
+
+                if (extractedNumber == number) {
+                    System.out.println("Parabéns, acertou o número. \nFicou com " + currentChips + " fichas!");
+                } else if (currentChips == 0) {
+                    System.out.println("O número extraído foi " + extractedNumber);
+                    System.out.println("Não tem mais fichas para apostar. Adeus.");
+                    out.println("Sair");
+                    break;
+                } else {
+                    System.out.println("O número extraído foi " + extractedNumber);
+                    System.out.println("Parece que não foi desta vez! Ainda possui " + currentChips + " fichas.");
+                }
+
+                do {
+                    System.out.print("Deseja fazer mais uma aposta? (S/N)\n :> ");
+                    text = sc.nextLine();
+                } while ((!text.equalsIgnoreCase("S")) && (!text.equalsIgnoreCase("N")));
+
+                if (text.equalsIgnoreCase("N")) {
+                    //Sair
+                    System.out.println("Obrigado por jogar. Até breve.");
+                    out.println("Sair");
+                    break;
+                } else {
+                    //Continuar
+                    out.println("Continuar");
+                }
+
 
 
             }

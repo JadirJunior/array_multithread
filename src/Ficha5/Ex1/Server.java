@@ -6,14 +6,20 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Phaser;
 
 public class Server {
 
     private final static int N_THREADS = 10;
     private final static int SOCKET_TIMEOUT = 10000;
+
+    private final static Phaser ph = new Phaser();
+
+    public static volatile int EXTRACTED_NUMBER = -1;
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -37,12 +43,13 @@ public class Server {
                 try {
                     Socket clientSocket = serverSocket.accept();
                     System.out.println("Main: Nova ligação");
-                    executor.execute(new ServerThread(clientSocket));
+                    executor.execute(new ServerThread(clientSocket, ph));
                 } catch (SocketTimeoutException e) {
                     System.out.println("Main: Acabou o tempo para aceitar novos jogadores");
-                    executor.shutdown();
+                    executor.shutdownNow();
                     break;
                 }
+
             }
 
 
