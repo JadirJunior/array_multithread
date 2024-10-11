@@ -11,15 +11,16 @@ import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Phaser;
+import java.util.concurrent.TimeUnit;
 
 public class Server {
 
     private final static int N_THREADS = 10;
     private final static int SOCKET_TIMEOUT = 10000;
-
     private final static Phaser ph = new Phaser();
-
     public static volatile int EXTRACTED_NUMBER = -1;
+    private final static int MAX_GAME_TIME = 30;
+    public static volatile boolean game_ended = false;
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -49,15 +50,21 @@ public class Server {
                     executor.shutdownNow();
                     break;
                 }
-
             }
 
 
-
+            if (!executor.awaitTermination(MAX_GAME_TIME, TimeUnit.SECONDS)) {
+                //Timeout terminou
+                game_ended = true;
+                System.out.println("Main: O tempo de jogo terminou.");
+            }
 
         } catch (IOException e) {
             System.err.println("Main: Ocorreu um erro de I/O ao iniciar o socket.");
             System.exit(2);
+        } catch (InterruptedException e) {
+            System.out.println("Main: Ocorreu um erro em awaitTermination");
+            System.exit(3);
         }
 
         sc.close();

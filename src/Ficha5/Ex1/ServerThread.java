@@ -34,6 +34,7 @@ public class ServerThread extends Thread{
 
             out.println(currentChips);
 
+
             synchronized (this) {
                 try {
                     wait();
@@ -58,6 +59,8 @@ public class ServerThread extends Thread{
                 Server.EXTRACTED_NUMBER = rand.nextInt(1, 37);
                 phaser.arriveAndAwaitAdvance(); //Baseado no número de Threads para registro
 
+
+
                 System.out.println("Thread " + this.getName() +": O número extraído foi " + Server.EXTRACTED_NUMBER);
                 out.println(Server.EXTRACTED_NUMBER);
 
@@ -74,6 +77,14 @@ public class ServerThread extends Thread{
                     break;
                 } else {
                     System.out.println("Thread " + this.getName() + ": O cliente vai continuar a jogar");
+                }
+
+                if (Server.game_ended) {
+                    System.out.println("Thread " + this.getName() + ": O jogo terminou");
+                    out.println("Sair");
+                    break;
+                } else {
+                    out.println("Continuar");
                 }
             }
 

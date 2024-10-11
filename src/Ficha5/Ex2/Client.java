@@ -91,6 +91,12 @@ public class Client {
                     out.println("Continuar");
                 }
 
+                if (in.readLine().equalsIgnoreCase("Sair")) {
+                    System.out.println("O jogo terminou.");
+                    System.out.println("Obrigado por jogar. Até breve.");
+                    break;
+                }
+
 
 
             }
