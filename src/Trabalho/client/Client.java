@@ -55,8 +55,34 @@ public class Client {
             } while(!logged);
 
             System.out.println("Aguarde o jogo começar...");
-
             System.out.println(in.readLine());
+            System.out.println("Em qualquer momento pode digitar 'Desisto' para sair do jogo");
+
+            String guess = "";
+            do {
+                String actualString = in.readLine();
+                System.out.println(actualString);
+
+                guess = sc.nextLine();
+                //Enviar palpite
+                out.println(guess);
+
+                String feedback = in.readLine();
+
+                if (feedback.equalsIgnoreCase("winner")) {
+                    System.out.println("Parabéns! Você venceu o jogo!");
+                    break;
+                } else if (feedback.equalsIgnoreCase("correct")) {
+                    System.out.println("Acertou na letra");
+                } else if (feedback.equalsIgnoreCase("incorrect")) {
+                    System.out.println("Errou na letra");
+                } else {
+                    //Jogo finalizado
+                    System.out.println(feedback);
+                    break;
+                }
+
+            } while (!guess.equalsIgnoreCase("desisto"));
 
         } catch (UnknownHostException e) {
             System.err.println("Host não encontrada");

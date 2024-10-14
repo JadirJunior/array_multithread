@@ -55,6 +55,68 @@ public class ServerThread extends Thread{
                 }
             }
 
+            String actualWord = "-".repeat(Server.WORD.length());
+            StringBuilder sb = new StringBuilder(actualWord);
+            //O jogo começou!
+            while (true) {
+                out.println(sb);
+
+                String guess = in.readLine();
+
+                if (Server.GAME_END) {
+
+                    if (Server.WINNER.trim().equalsIgnoreCase("")) {
+                        out.println("O tempo para o fim do jogo se esgotou e ninguém venceu.");
+                    } else {
+                        out.println("O jogo finalizou com a vitória de " + Server.WINNER + " (" + Server.WORD + ")");
+                    }
+                    break;
+                }
+
+                boolean isWinner = false, correct = false;
+                if (guess.length() == 1) {
+                    //Enviou apenas uma letra
+                    for (int i = 0; i < Server.WORD.length(); i++) {
+                        if (Server.WORD.charAt(i) == guess.charAt(0)) {
+                            //Caso essa letra exista na palavra escolhida pelo servidor
+                            if (sb.charAt(i) == '-') {
+                                //Caso essa letra ainda não tenha sido escolhida
+                                sb.setCharAt(i, guess.charAt(0));
+                                correct = true;
+                            } else {
+                                //Caso tenha enviado uma letra repetida
+                                break;
+                            }
+                        }
+                    }
+
+                    if (sb.toString().equals(Server.WORD)) {
+                        isWinner = true;
+                    }
+                } else {
+                    //Enviou a palavra inteira
+                    if (Server.WORD.equals(guess)) {
+                        isWinner = true;
+                        sb = new StringBuilder(guess);
+                    }
+                }
+
+                System.out.println("Thread " + this.getName() + ": O user " + logged.getUser() + " enviou o palpite: " + guess);
+                if (isWinner) {
+                    Server.GAME_END = true;
+                    Server.WINNER = logged.getUser();
+                    out.println("winner");
+                    System.out.println("Thread " + this.getName() + ": O user " + logged.getUser() + " enviou o palpite: " + guess + " e venceu!");
+                } else if (correct) {
+                    out.println("correct");
+                    System.out.println("Thread " + this.getName() + ": O user " + logged.getUser() + " enviou o palpite: " + guess + " e estava correto (" + Server.WORD + ")");
+                } else {
+                    out.println("incorrect");
+                    System.out.println("Thread " + this.getName() + ": O user " + logged.getUser() + " enviou o palpite: " + guess + " e estava incorreto (" + Server.WORD + ")");
+                }
+
+            }
+
         } catch (IOException e) {
             System.err.println("Thread " + this.getName() + ": Ocorreu um erro de I/O");
         }
