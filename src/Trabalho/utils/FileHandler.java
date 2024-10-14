@@ -74,4 +74,9 @@ public class FileHandler {
         }
     }
 
+    public void resetFile() {
+
+    }
+
+
 }
