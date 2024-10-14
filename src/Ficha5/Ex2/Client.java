@@ -98,7 +98,6 @@ public class Client {
                 }
 
 
-
             }
 
         } catch (UnknownHostException e) {
