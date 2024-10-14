@@ -69,17 +69,22 @@ public class Client {
 
                 String feedback = in.readLine();
 
-                if (feedback.equalsIgnoreCase("winner")) {
-                    System.out.println("Parabéns! Você venceu o jogo!");
-                    break;
-                } else if (feedback.equalsIgnoreCase("correct")) {
-                    System.out.println("Acertou na letra");
-                } else if (feedback.equalsIgnoreCase("incorrect")) {
-                    System.out.println("Errou na letra");
-                } else {
-                    //Jogo finalizado
-                    System.out.println(feedback);
-                    break;
+                switch (feedback) {
+                    case "winner":
+                        System.out.println("Parabéns! Você venceu o jogo!");
+                        return;
+                    case "correct":
+                        System.out.println("Acertou na letra");
+                        break;
+                    case "incorrect":
+                        System.out.println("Errou na letra");
+                        break;
+                    case "desistencia":
+                        System.out.println("Que pena que você desistiu... \nObrigado por jogar.");
+                        return;
+                    default:
+                        System.out.println(feedback);
+                        return;
                 }
 
             } while (!guess.equalsIgnoreCase("desisto"));

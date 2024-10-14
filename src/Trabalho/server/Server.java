@@ -58,12 +58,14 @@ public class Server {
                     System.out.println("Main: Nova ligação");
                     executorService.execute(new ServerThread(clientSocket));
                 } catch (SocketTimeoutException e) {
-
                     System.out.println("Main: Acabou o tempo para aceitar novos jogadores");
                     executorService.shutdownNow();
                     break;
                 }
             }
+
+            //Limpar usuários logados
+            file.resetFile();
 
             if (!executorService.awaitTermination(MAX_GAME_TIME, TimeUnit.SECONDS)) {
                 //Timeout terminou

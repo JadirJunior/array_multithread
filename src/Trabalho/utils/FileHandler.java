@@ -75,7 +75,20 @@ public class FileHandler {
     }
 
     public void resetFile() {
+        try (
+                BufferedReader br = new BufferedReader(new FileReader(file))
+        ) {
+            List<String> lines = new ArrayList<>();
+            String st;
+            while ((st = br.readLine()) != null) {
+                String[] separated = st.split(";");
+                lines.add(separated[0]+";"+separated[1]);
+            }
 
+            writeFile(lines);
+        } catch (IOException e) {
+            System.out.println("FileHandler: Ocorreu um erro ao ler o arquivo para reset.");
+        }
     }
 
 

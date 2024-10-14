@@ -63,6 +63,12 @@ public class ServerThread extends Thread{
 
                 String guess = in.readLine();
 
+                if (guess.equalsIgnoreCase("desisto")) {
+                    out.println("desistencia");
+                    System.out.println("Thread " + this.getName() + ": O jogador " + logged.getUser() + " desistiu de jogar.");
+                    break;
+                }
+
                 if (Server.GAME_END) {
 
                     if (Server.WINNER.trim().equalsIgnoreCase("")) {
