@@ -29,7 +29,9 @@ public class Client {
                 Numbers numbers = (Numbers) objIn.readObject();
                 System.out.println(numbers);
 
-                int mult = InputValidation.validateInt(sc, "Introduza o valor pelo qual deseja multiplicar");
+                int mult = InputValidation.validateInt(sc, "Introduza o valor pelo qual deseja multiplicar os elementos do array: \n");
+                numbers.multiply(mult);
+                System.out.println(numbers);
 
             } catch (UnknownHostException e) {
                 System.err.println("Servidor desconhecido");

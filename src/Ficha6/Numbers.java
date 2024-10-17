@@ -31,6 +31,12 @@ public class Numbers implements Serializable {
         }
         min *= mult;
         max *= mult;
+
+        if (min < max) {
+            int aux = min;
+            min = max;
+            max = aux;
+        }
     }
 
     @Override
