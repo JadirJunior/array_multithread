@@ -25,6 +25,14 @@ public class Numbers implements Serializable {
         }
     }
 
+    public void multiply(int mult) {
+        for (int i = 0; i < size;i++) {
+            array[i] *= mult;
+        }
+        min *= mult;
+        max *= mult;
+    }
+
     @Override
     public String toString() {
         return "\nMínimo: " + min + "\nMáximo: " + max + "\nTamanho: " + size + "\nArray: " + Arrays.toString(array);

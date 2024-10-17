@@ -22,6 +22,7 @@ public class Server {
         sc.close();
         Numbers numbers = new Numbers(min, max, size);
 
+        System.out.println("Objeto a enviar: \n" + numbers);
         while (true) {
 
             try (
@@ -33,8 +34,10 @@ public class Server {
                 //Envia os dados
                 outObj.writeObject(numbers);
                 outObj.flush();
+
             } catch (IOException e) {
                 System.out.println("Main: Ocorreu um erro ao criar o ServerSocket");
+                System.exit(1);
             }
 
         }
