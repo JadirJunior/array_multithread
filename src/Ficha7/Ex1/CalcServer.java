@@ -17,30 +17,19 @@ public class CalcServer {
         Scanner sc = new Scanner(System.in);
         int portNumber = InputValidation.validateIntBetween(
                 sc,
-                "Introduza a porta que o servidor vai escutar (entre 6000 e 6002)",
+                "Introduza a porta que o servidor vai escutar (entre 6000 e 6002) \n:> ",
                 6000, 6002);
 
         try (
                 ServerSocket serverSocket = new ServerSocket(portNumber);
+                ExecutorService executorService = Executors.newFixedThreadPool(MAX_THREADS)
                 ) {
             System.out.println("Servidor ativo na porta " + portNumber);
 
             while (true) {
-
                 System.out.println("À espera de clientes");
-
-                try (
-                        Socket clientSocket = serverSocket.accept();
-                        ExecutorService executorService = Executors.newFixedThreadPool(MAX_THREADS)
-                        ){
-
-                    executorService.execute(new CalcClientThread(clientSocket));
-
-                } catch (IOException e) {
-                    System.err.println("Erro ao criar o socket");
-                }
-
-
+                Socket clientSocket = serverSocket.accept();
+                executorService.execute(new CalcClientThread(clientSocket));
             }
 
         } catch (IOException e) {

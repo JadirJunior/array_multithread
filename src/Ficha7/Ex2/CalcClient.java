@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Scanner;
 
 public class CalcClient {
 
@@ -20,6 +21,9 @@ public class CalcClient {
 
     public static void main(String[] args) {
 
+        Scanner sc = new Scanner(System.in);
+
+
         while (true) {
             if (currentHostNameIndex == hostnames.length) {
                 System.err.println("Não foi possível se conectar com nenhum hostname");
@@ -29,12 +33,24 @@ public class CalcClient {
             System.out.println("Tentando conexão com host " + hostnames[currentHostNameIndex] + ":" + ports[currentPortIndex]);
 
             try (
-                    Socket socket = connectToServer(hostnames[currentHostNameIndex], ports[currentPortIndex])
+                    Socket socket = connectToServer(hostnames[currentHostNameIndex], ports[currentPortIndex]);
+                    PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+                    BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))
                     ) {
-                //Conexão estabelecida
+                System.out.println("Conexão estabelecida.");
+                String input = "";
+
+                while (!input.equalsIgnoreCase("sair")) {
+                    System.out.print("Escreva a expressão matemática ou digite 'sair para sair'. \nUtilize o padrão: <operador1> <operador> <operador2>\n:> ");
+                    input = sc.nextLine();
+                    out.println(input);
+                    System.out.println(in.readLine());
+                }
+
                 break;
+
             } catch (IOException e) {
-                System.err.println("A conexão com o host " + hostnames[currentHostNameIndex] + " falhou");
+                //System.err.println("A conexão com o host " + hostnames[currentHostNameIndex] + ":" + ports[currentPortIndex] + " falhou");
 
                 if (currentPortIndex == (ports.length-1)) {
                     currentHostNameIndex++;
@@ -45,22 +61,7 @@ public class CalcClient {
             }
         }
 
-        System.out.println("A conexão foi um sucesso.");
-
-        try (
-                Socket clientSocket = connectToServer(hostnames[currentHostNameIndex], ports[currentPortIndex]);
-                PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-                BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))
-                ) {
-
-            System.out.println(in.readLine());
-
-
-        } catch(IOException e) {
-            System.err.println("Ocorreu um erro ao criar os buffers de comunicação " + e.getMessage());
-        }
-
-
+        sc.close();
 
     }
 
