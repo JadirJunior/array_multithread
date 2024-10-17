@@ -1,0 +1,33 @@
+package Ficha6;
+
+import java.io.Serializable;
+import java.util.Arrays;
+import java.util.Random;
+
+public class Numbers implements Serializable {
+
+    private int min;
+    private int max;
+    private int size;
+
+    private int[] array;
+
+    public Numbers(int min, int max, int size) {
+        this.min = min;
+        this.max = max;
+        this.size = size;
+
+        array = new int[size];
+        Random rand = new Random();
+
+        for (int i=0; i<array.length;i++) {
+            array[i] = rand.nextInt(min, max+1);
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "\nMínimo: " + min + "\nMáximo: " + max + "\nTamanho: " + size + "\nArray: " + Arrays.toString(array);
+    }
+
+}
