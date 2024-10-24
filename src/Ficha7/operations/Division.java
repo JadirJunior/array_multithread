@@ -8,7 +8,7 @@ public class Division extends Operation {
     }
 
     @Override
-    public float operate(float val1, float val2) {
+    public float operate() {
         if (val2 == 0) return Float.NaN;
         return val1/val2;
     }

@@ -38,7 +38,7 @@ public class CalcClientThread extends Thread{
                     out.println("Operação não foi bem sucedida");
                 } else {
                     Operation operation = op.get();
-                    float res = operation.operate(operation.getVal1(), operation.getVal2());
+                    float res = operation.operate();
                     out.println("Resultado: " + expression+" = "+res);
                 }
             }

@@ -23,14 +23,6 @@ public class Operation implements IOperate {
         return val2;
     }
 
-    public static Operation[] operationsAvailable = {
-            new Addition("+", "add"),
-            new Subtraction("-"),
-            new Division("/", ":"),
-            new Potential("**"),
-            new Multiplication("*", "x", "X"),
-    };
-
     protected String[] symbols;
 
     public String[] getSymbols() {
@@ -38,7 +30,7 @@ public class Operation implements IOperate {
     }
 
     @Override
-    public float operate(float val1, float val2) {
+    public float operate() {
         return 0;
     }
 }

@@ -1,14 +1,24 @@
 package Ficha7;
 
 import Ficha7.base.Operation;
+import Ficha7.operations.Addition;
+import Ficha7.operations.Division;
+import Ficha7.operations.Multiplication;
+import Ficha7.operations.Subtraction;
 
-import javax.swing.text.html.Option;
 import java.util.Optional;
 
 public class Calculator {
 
+    private static Operation[] operationsAvailable = {
+            new Addition("+", "add"),
+            new Subtraction("-"),
+            new Division("/", ":"),
+            new Multiplication("*", "x", "X"),
+    };
+
     public static Optional<Operation> validateExpression(String expression) {
-        Operation[] operatorsAvailable = Operation.operationsAvailable;
+        Operation[] operatorsAvailable = operationsAvailable;
 
         String[] separated = expression.split(" ");
 

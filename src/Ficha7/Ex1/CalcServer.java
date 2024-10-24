@@ -11,8 +11,6 @@ import java.util.concurrent.Executors;
 
 public class CalcServer {
 
-    private static int MAX_THREADS = 10;
-
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int portNumber = InputValidation.validateIntBetween(
@@ -22,14 +20,13 @@ public class CalcServer {
 
         try (
                 ServerSocket serverSocket = new ServerSocket(portNumber);
-                ExecutorService executorService = Executors.newFixedThreadPool(MAX_THREADS)
                 ) {
             System.out.println("Servidor ativo na porta " + portNumber);
 
             while (true) {
                 System.out.println("À espera de clientes");
                 Socket clientSocket = serverSocket.accept();
-                executorService.execute(new CalcClientThread(clientSocket));
+                new CalcClientThread(clientSocket).start();
             }
 
         } catch (IOException e) {

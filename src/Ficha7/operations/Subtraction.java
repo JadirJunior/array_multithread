@@ -9,7 +9,7 @@ public class Subtraction extends Operation {
     }
 
     @Override
-    public float operate(float val1, float val2) {
+    public float operate() {
         return val1-val2;
     }
 
